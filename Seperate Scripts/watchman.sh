@@ -8,6 +8,9 @@
 apt-get install libtool
 apt-get install m4
 apt-get install automake
+apt-get install libssl-dev
+apt-get install checkinstall
+apt-get install autotools-dev
 
 git clone https://github.com/facebook/watchman.git
 cd watchman
