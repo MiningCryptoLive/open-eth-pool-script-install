@@ -179,7 +179,7 @@ git clone https://github.com/etclabscore/core-geth.git
 cd core-geth
 make all
 
-sudo mv ./build/bin/geth /usr/local/bin/geth
+sudo mv /home/pool/core-geth/build/bin/geth /usr/local/bin/geth
 
 
 if [ "$1" == "--create" ]; then
