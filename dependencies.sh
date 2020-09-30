@@ -4,7 +4,7 @@
 #                           GOLANG                         #
 # **********************************************************
 
-VERSION="1.10.3"
+VERSION="1.13.x"
 
 print_help() {
     echo "Usage: bash goinstall.sh OPTIONS"
@@ -104,7 +104,7 @@ if ! [ -x "$(command -v node)" ]; then
     apt-get install -y build-essential
     
     # Getting the lastest resource.
-    curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_12.18.x | sudo -E bash -
     apt-get install -y nodejs
     
 fi
@@ -175,15 +175,15 @@ echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_watches && echo 999999 |
 
 echo -e "\033[32mInstalling geth"
 
-apt-get install software-properties-common
-add-apt-repository -y ppa:ethereum/ethereum
+git clone https://github.com/etclabscore/core-geth.git
+cd core-geth
+make all
 
-get_update
+sudo mv ./build/bin/geth /usr/local/bin/geth
 
-apt-get install ethereum
 
 if [ "$1" == "--create" ]; then
-    geth account new
+    geth --classic account new
 fi
 
 echo -e '\033[1;92mMaking a geth service'
@@ -191,7 +191,7 @@ echo -e '\033[1;92mMaking a geth service'
 echo "[Unit]
 Description=Ethereum Go Client
 [Service]
-ExecStart=/usr/bin/geth --fast --cache=16 --datadir=/mnt/eth-blockchain --identity=@bkawk --keystore=/mnt/eth-blockchain --rpc --rpcport=8882 --rpccorsdomain=* --rpcapi=web3,db,net,eth
+ExecStart=/usr/local/bin/geth --fast --cache=2048 --datadir=/mnt/etc-blockchain --keystore=/mnt/eth-blockchain --rpc --rpcport=8882 --rpccorsdomain=* --rpcapi=web3,db,net,eth
 Restart=always
 RestartSec=30
 Type=simple
